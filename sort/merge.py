@@ -1,10 +1,12 @@
 def sort(data):
+    # isolate all elements
     if len(data) <= 1:
         return data
 
     mid = len(data) // 2
     left = sort(data[:mid])
     right = sort(data[mid:])
+    # merge isolated elements
     return merge(left, right)
 
 def merge(left, right):
