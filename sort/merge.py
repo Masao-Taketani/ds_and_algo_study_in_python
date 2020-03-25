@@ -22,7 +22,7 @@ def merge(left, right):
             j += 1
 
     if i < len(left):
-        result.append(left[i:])
+        result.extend(left[i:])
     else:
-        result.append(right[j:])
+        result.extend(right[j:])
     return result
