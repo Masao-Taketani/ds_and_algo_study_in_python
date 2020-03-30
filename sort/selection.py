@@ -8,4 +8,4 @@ def sort(data):
         # change positions between min_idx and where the sort is started
         data[i], data[min_idx] = data[min_idx], data[i]
 
-    print(data)
+    #print(data)

@@ -6,4 +6,4 @@ def sort(data):
             if data[j] > data[j + 1]:
                 data[j], data[j + 1] = data[j + 1], data[j]
 
-    print(data)
+    #print(data)

@@ -8,4 +8,4 @@ def sort(data):
             j -= 1
         data[j + 1] = tmp
 
-    print(data)
+    #print(data)
