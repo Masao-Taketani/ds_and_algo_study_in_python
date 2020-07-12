@@ -25,6 +25,11 @@ def print_success():
 
 
 def check_instance_and_return_result(method, args):
+    """
+    this function is used to differentiate the process
+    when the args are single input such as int or str
+    and multiple inputs such as list or tuples.
+    """
     # check if t is instance of `int` or `str`
     if isinstance(args, (int, str)):
         result = method(args)
