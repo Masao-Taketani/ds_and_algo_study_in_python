@@ -20,6 +20,17 @@ def check_all_false_cases(method, false_cases):
     print_success()
 
 
+def check_equal(method, args, ans):
+    result = check_instance_and_return_result(method, args)
+    assert result == ans, "An error occurred for case {}".format(args)
+
+
+def check_all_equal_cases(method, test_cases):
+    for inp, ans in test_cases:
+        check_equal(method, inp, ans)
+    print_success()
+
+
 def print_success():
     print("passed the tests.")
 
