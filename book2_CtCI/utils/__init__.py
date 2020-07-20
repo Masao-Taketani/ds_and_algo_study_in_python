@@ -45,7 +45,7 @@ def check_instance_and_return_result(method, args):
     and multiple inputs such as list or tuples.
     """
     # check if t is instance of `int` or `str`
-    if isinstance(args, (int, str)):
+    if isinstance(args, (int, str, list)):
         result = method(args)
     else:
         result = method(*args)
