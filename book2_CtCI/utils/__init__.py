@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 ERROR_MGS = "An error occurred for case "
 
 def check_true(method, args):
@@ -46,6 +48,7 @@ def check_instance_and_return_result(method, args):
     """
     # check if t is instance of `int` or `str`
     if isinstance(args, (int, str, list)):
+        args = deepcopy(args)
         result = method(args)
     else:
         result = method(*args)
