@@ -46,7 +46,8 @@ def check_instance_and_return_result(method, args):
     when the args are single input such as int or str
     and multiple inputs such as list or tuples.
     """
-    # check if t is instance of `int` or `str`
+    # check if args is instance of `int`, `str` or 'list'.
+    # otherwise treat it as a tuple.
     if isinstance(args, (int, str, list)):
         args = deepcopy(args)
         result = method(args)
