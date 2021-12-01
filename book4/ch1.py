@@ -1,4 +1,5 @@
 from utils.test import *
+from utils import print_ex, print_passing_all
 
 def Euclid(m, n):
     """Return the greatest common divisor"""
@@ -52,7 +53,9 @@ if __name__ == '__main__':
     B = [13, 16, 23, 45, 54, 58, 76, 91]
     execute_val_test(BinarySearch, False, B, 73)
 
-    print('\n[Chapter Exercise]\n')
+    print_ex()
     execute_val_test(Euclid, 137, 3425, 1233)
     C = [12, 15, 19, 36, 38, 45, 56, 88]
     execute_val_test(BinarySearch, False, C, 34)
+
+    print_passing_all()

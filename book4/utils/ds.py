@@ -1,5 +1,3 @@
-EMPTY_MESSAGE = 'Cannot be popped since there is no data.'
-
 class Base:
     def __init__(self, data=[]):
         self.data = data

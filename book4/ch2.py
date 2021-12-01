@@ -1,5 +1,6 @@
 from utils.test import *
 from utils.ds import Stack, Queue
+from utils import print_ex, print_passing_all
 
 def execute_stack(stack, test_data):
     for elem in test_data:
@@ -34,3 +35,16 @@ if __name__ == '__main__':
     queue_ans = ['pig', 'rat']
     queue = Queue()
     execute_queue_test(execute_queue, queue_ans, queue, queue_test_data)
+
+    print_ex()
+    A = [12, 23, 'pop', 34, 25, 'pop']
+    A_ans = [12, 34]
+    A_stack = Stack([])
+    print("test", A_stack.data)
+    execute_stack_test(execute_stack, A_ans, A_stack, A)
+    B = [12, 23, 'deq', 34, 25, 'deq']
+    B_ans = [34, 25]
+    B_queue = Queue([])
+    execute_queue_test(execute_queue, B_ans, B_queue, B)
+
+    print_passing_all()
