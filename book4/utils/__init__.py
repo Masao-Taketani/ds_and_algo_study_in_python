@@ -1,5 +1,3 @@
-EMPTY_MESSAGE = 'Cannot be popped since there is no data.'
-
 def print_ex():
     print('\n[Chapter Exercises]\n')
 

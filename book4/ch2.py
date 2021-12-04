@@ -12,19 +12,14 @@ def execute_stack(stack, test_data):
 
 def execute_stack(stack, test_data):
     for elem in test_data:
-        if elem == 'pop':
-            stack.pop()
-        else:
-            stack.push(elem)
+        stack.pop() if elem == 'pop' else stack.push(elem)
         print(stack.data)
 
 def execute_queue(queue, test_data):
     for elem in test_data:
-        if elem == 'deq':
-            queue.dequeue()
-        else:
-            queue.enqueue(elem)
+        queue.dequeue() if elem == 'deq' else queue.enqueue(elem)
         print(queue.data)
+
 
 if __name__ == '__main__':
     stack_test_data = ['dog', 'cat', 'pig', 'pop', 'pop', 'rat']

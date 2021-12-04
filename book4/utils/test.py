@@ -42,6 +42,27 @@ class TestCase:
                 print_error(self.test_name)
         print_pass(self.test_name)
 
+    def check_heap(self, ans_list, *args):
+        _ = self.calculate(*args)
+        heap, _ = args
+        if len(ans_list) != len(heap):
+            print_error(self.test_name)
+        for ans, out in zip(ans_list, heap.data):
+            if ans != out:
+                print_error(self.test_name)
+        print_pass(self.test_name)
+
+    def check_bst(self, ans_dict, *args):
+        out_dict = self.calculate(*args)
+        bst, _ = args
+        for k, v in ans_dict.items():
+            try:
+                if out_dict[k] == v:
+                    out_dict.pop(k)
+            except KeyError:
+                print_error(self.test_name)
+        print_pass(self.test_name) if out_dict == {} else print_error(self.test_name)
+
 
 def print_pass(func_name):
     print(f'[PASS]{func_name}')
@@ -51,13 +72,36 @@ def print_error(func_name):
     raise Exception
 
 def execute_val_test(func, ans, *args):
-    ins = TestCase(func)
-    ins.check_val(ans, *args)
+    tc = TestCase(func)
+    tc.check_val(ans, *args)
 
 def execute_stack_test(func, ans, *args):
-    ins = TestCase(func)
-    ins.check_stack(ans, *args)
+    tc = TestCase(func)
+    tc.check_stack(ans, *args)
 
 def execute_queue_test(func, ans, *args):
-    ins = TestCase(func)
-    ins.check_queue(ans, *args)
+    tc = TestCase(func)
+    tc.check_queue(ans, *args)
+
+def execute_heap_test(func, ans, *args):
+    tc = TestCase(func)
+    tc.check_heap(ans, *args)
+
+def execute_bst_test(func, ans, *args):
+    tc = TestCase(func)
+    tc.check_bst(ans, *args)
+
+def convert_bst_to_dict(node):
+    if node.val is None:
+        return None
+    else:
+        def get_bst_dic(dic, idx, node):
+            dic[idx] = node.val
+            if node.left is not None:
+                get_bst_dic(dic, 2*idx+1, node.left)
+            if node.right is not None:
+                get_bst_dic(dic, 2*idx+2, node.right)
+        
+        dic = {}
+        get_bst_dic(dic, 0, node)
+        return dic
