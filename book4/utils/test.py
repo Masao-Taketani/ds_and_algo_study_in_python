@@ -63,6 +63,17 @@ class TestCase:
                 print_error(self.test_name)
         print_pass(self.test_name) if out_dict == {} else print_error(self.test_name)
 
+    def check_hash(self, ans_dict, *args):
+        out_dict = self.calculate(*args)
+        hash, _ = args
+        for k, v in ans_dict.items():
+            try:
+                if out_dict[k] == v:
+                    out_dict.pop(k)
+            except KeyError:
+                print_error(self.test_name)
+        print_pass(self.test_name) if out_dict == {} else print_error(self.test_name)
+
 
 def print_pass(func_name):
     print(f'[PASS]{func_name}')
@@ -91,17 +102,6 @@ def execute_bst_test(func, ans, *args):
     tc = TestCase(func)
     tc.check_bst(ans, *args)
 
-def convert_bst_to_dict(node):
-    if node.val is None:
-        return None
-    else:
-        def get_bst_dic(dic, idx, node):
-            dic[idx] = node.val
-            if node.left is not None:
-                get_bst_dic(dic, 2*idx+1, node.left)
-            if node.right is not None:
-                get_bst_dic(dic, 2*idx+2, node.right)
-        
-        dic = {}
-        get_bst_dic(dic, 0, node)
-        return dic
+def execute_hash_test(func, ans, *args):
+    tc = TestCase(func)
+    tc.check_hash(ans, *args)

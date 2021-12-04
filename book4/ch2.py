@@ -35,7 +35,6 @@ if __name__ == '__main__':
     A = [12, 23, 'pop', 34, 25, 'pop']
     A_ans = [12, 34]
     A_stack = Stack([])
-    print("test", A_stack.data)
     execute_stack_test(execute_stack, A_ans, A_stack, A)
     B = [12, 23, 'deq', 34, 25, 'deq']
     B_ans = [34, 25]

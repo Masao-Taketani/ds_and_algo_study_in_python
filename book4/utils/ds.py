@@ -147,8 +147,8 @@ class Node:
 
 class BST(Node):
     """Implement Binary Search Tree"""
-    def __init__(self, val=None, **kwargs):
-        super(BST, self).__init__(val, **kwargs)
+    def __init__(self, val=None, left=None, right=None):
+        super(BST, self).__init__(val, left=None, right=None)
 
     def insert(self, val):
         if self.val is None:
@@ -177,11 +177,24 @@ class BST(Node):
                 minval, node.left = deletemin(node.left)
                 return minval, node
 
-        def delete_and_fix_tree(parent):
-            minval, node = deletemin(parent.right)
-            parent.val = minval
-            parent.right = node
+        def deletemax(node):
+            if node.right is None:
+                maxval = node.val
+                return maxval, node.left
+            else:
+                maxval, node.right = deletemax(node.right)
+                return maxval, node
 
+        def delete_and_fix_left_tree(parent):
+                maxval, node = deletemax(parent.left)
+                parent.val = maxval
+                parent.left = node
+
+        def delete_and_fix_right_tree(parent):
+                minval, node = deletemin(parent.right)
+                parent.val = minval
+                parent.right = node
+            
         if self.left is None and self.right is None:
             if self.val == val:
                 self.val = None
@@ -191,24 +204,119 @@ class BST(Node):
             if self.val > val:
                 print_no_val(val)
             elif self.val == val:
-                delete_and_fix_tree(self)
+                delete_and_fix_right_tree(self)
             else:
                 self.right.delete(val)
         elif self.right is None:
-            if self.val <= val:
-                print_no_val(val)
+            if self.val == val:
+                delete_and_fix_left_tree(self)
             else:
                 self.left.delete(val)
         else:
             # both left and right have a node
-
             if self.val == val:
-                delete_and_fix_tree(self)
+                delete_and_fix_right_tree(self)
 
             elif self.val > val:
                 self.left.delete(val)
             else:
                 self.right.delete(val)
+
+    def convert_bst_to_dict(self):
+        if self.val is None:
+            return None
+        else:
+            def get_bst_dic(dic, idx, node):
+                dic[idx] = node.val
+                if node.left is not None:
+                    get_bst_dic(dic, 2*idx+1, node.left)
+                if node.right is not None:
+                    get_bst_dic(dic, 2*idx+2, node.right)
+            
+            dic = {}
+            get_bst_dic(dic, 0, self)
+            return dic
+
+
+class LinkedList(Node):
+
+    def __init__(self, val=None, next=None):
+        super(LinkedList, self).__init__(val, next=next)
+
+    def insert(self, val):
+        new_node = LinkedList(val, next=None)
+        new_node.next = self
+        self = new_node
+        return self
+
+    def delete(self, val):
+        self.check_empty()
+        if self.val == val:
+            self = self.next
+            pass
+        prev = self
+        next = prev.next
+        while(True):
+            if next is None:
+                print(f'there is no {val} in this tree')
+                break
+            elif next.val == val:
+                prev.next = next.next
+                break
+            else:
+                prev = next
+                next = next.next
+
+    def collect_all_vals_in_list(self):
+        l = []
+        l.append(self.val)
+        next = self.next
+        while(True):
+            if next is not None:
+                l.append(next.val)
+                next = next.next
+            else:
+                return l
+
+
+class Hash:
+    """Implement Separate Chaining Hash"""
+    def __init__(self, num_bucket, hash_func, init_val=None):
+        self.buckets = []
+        self.hash_func = hash_func
+        for _ in range(num_bucket):
+            self.buckets.append(init_val)
+    
+    def insert(self, val):
+        hash_val = self.hash_func(val)
+        if self.buckets[hash_val] is None:
+            self.buckets[hash_val] = LinkedList(val=val, next=None)
+        else:
+            self.buckets[hash_val] = self.buckets[hash_val].insert(val)
+
+    def delete(self, val):
+        self.check_empty()
+        hash_val = self.hash_func(val)
+        if self.buckets[hash_val] is None:
+            print(f'there is no {val} in this tree')
+            pass
+        else:
+            self.buckets[hash_val].delete(val)
+
+    def check_empty(self):
+        for elem in self.buckets:
+            if elem is not None:
+                return
+        print(EMPTY_MESSAGE)
+        raise Exception
+
+    def convert_hash_to_dict(self):
+        dic = {}
+        for i, ll in enumerate(self.buckets):
+            if ll is not None:
+                l = ll.collect_all_vals_in_list()
+                dic[i] = l
+        return dic
 
 
 def swap(lis, idx1, idx2):
