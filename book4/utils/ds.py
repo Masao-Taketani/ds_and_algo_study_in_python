@@ -1,5 +1,6 @@
-EMPTY_MESSAGE = 'Empty. There is no data.'
+from utils.utils import swap
 
+EMPTY_MESSAGE = 'Empty. There is no data.'
 
 class Base:
 
@@ -317,9 +318,3 @@ class Hash:
                 l = ll.collect_all_vals_in_list()
                 dic[i] = l
         return dic
-
-
-def swap(lis, idx1, idx2):
-    tmp = lis[idx1]
-    lis[idx1] = lis[idx2]
-    lis[idx2] = tmp
