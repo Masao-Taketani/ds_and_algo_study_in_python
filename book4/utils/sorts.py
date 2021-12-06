@@ -13,7 +13,6 @@ def bubble_sort(li):
     return li
 
 
-
 def quick_sort(li, i, j):
     if i >= j or len(li) < 1:
         return
@@ -46,3 +45,29 @@ def quick_sort(li, i, j):
     quick_sort(li, k, j)
 
     return li
+
+
+def marge_sort(li):
+    length = len(li)
+    if length < 2:
+        return li
+
+    def marge(left, right):
+        result = []
+        len_l, len_r = len(left), len(right)
+        i, j = 0, 0
+        while(True):
+            if i < len_l and j < len_r and left[i] <= right[j] or j == len_r:
+                result.append(left[i])
+                i += 1
+            elif i < len_l and j < len_r and right[j] < left[i] or i == len_l:
+                result.append(right[j])
+                j += 1
+
+            if i == len_l and j == len_r:
+                return result
+    
+    mid = length // 2
+    left_li = marge_sort(li[:mid])
+    right_li = marge_sort(li[mid:])
+    return marge(left_li, right_li)
