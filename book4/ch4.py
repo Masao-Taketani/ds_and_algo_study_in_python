@@ -1,5 +1,5 @@
 from utils.test import *
-from utils.sorts import bubble_sort, quick_sort, marge_sort
+from utils.sorts import bubble_sort, quick_sort, marge_sort, HeapSort
 from utils import print_ex, print_passing_all
 
 
@@ -16,3 +16,6 @@ if __name__ == '__main__':
     mgsort_test_data = [5, 7, 9, 4, 6, 8, 3, 2]
     mgsort_ans = list(range(2, 10))
     execute_sort_test(marge_sort, mgsort_ans, mgsort_test_data)
+
+    hpsort = HeapSort([12, 23, 24, 45, 18, 11, 34])
+    print(hpsort.data)

@@ -58,7 +58,7 @@ class TestCase:
                 print_result_error(self.test_name, ans_list, heap.data)
         print_pass(self.test_name)
 
-    def check_dict(ans_dict, out_dict):
+    def check_dict(self, ans_dict, out_dict):
         for k, v in ans_dict.items():
             try:
                 if out_dict[k] == v:

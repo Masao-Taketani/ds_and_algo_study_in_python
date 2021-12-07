@@ -1,4 +1,6 @@
 from utils.utils import swap
+from utils.ds import Heap
+
 
 def bubble_sort(li):
     length = len(li)
@@ -71,3 +73,31 @@ def marge_sort(li):
     left_li = marge_sort(li[:mid])
     right_li = marge_sort(li[mid:])
     return marge(left_li, right_li)
+
+
+class HeapSort(Heap):
+
+    def __init__(self, data=[]):
+        super(Heap, self).__init__(data)
+        if len(self.data) > 1:
+            print('test')
+            self.construct_heap()
+
+    def construct_heap(self):
+        length = len(self.data)
+        for i in range(length // 2 - 1, -1, -1):
+            print(i)
+            if 2 * i + 2 > length - 1:
+                min_idx = 2 * i + 1
+            else:
+                if self.data[2 * i + 1] >= self.data[2 * i + 2]:
+                    min_idx = 2 * i + 2
+                else:
+                    min_idx = 2 * i + 1
+            
+            if self.data[i] > self.data[min_idx]:
+                swap(self.data, i, min_idx)
+
+    def implace_sort(self):
+        pass
+            
