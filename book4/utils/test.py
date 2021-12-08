@@ -21,18 +21,19 @@ class TestCase:
         else:
             print_result_error(self.test_name, ans, val)
 
-    def check_list(self, ans_list, out_list):
+    def check_list(self, ans_list, out_list, show_pass=True):
         if len(ans_list) != len(out_list):
             print_length_error(self.test_name, len(ans_list), len(out_list))
         for ans, out in zip(ans_list, out_list):
             if ans != out:
                 print_result_error(self.test_name, ans_list, out_list)
-        print_pass(self.test_name)
+        if show_pass==True:
+            print_pass(self.test_name)
 
-    def check_stack(self, ans_list, *args):
+    def check_instance_data(self, ans_list, *args, show_pass=True):
         _ = self.calculate(*args)
-        stack, _ = args
-        self.check_list(ans_list, stack.data)
+        instance, _ = args
+        self.check_list(ans_list, instance.data, show_pass=show_pass)
 
     def check_queue(self, ans_list, *args):
         _ = self.calculate(*args)
@@ -41,44 +42,23 @@ class TestCase:
         for elem in queue.data:
             if elem != float('inf'):
                 modified_queue.append(elem)
-        if len(ans_list) != len(modified_queue):
-            print_length_error(self.test_name, len(ans_list), len(modified_queue))
-        for ans, out in zip(ans_list, modified_queue):
-            if ans != out:
-                print_result_error(self.test_name, ans_list, modified_queue)
-        print_pass(self.test_name)
+        self.check_list(ans_list, modified_queue)
 
-    def check_heap(self, ans_list, *args):
-        _ = self.calculate(*args)
-        heap, _ = args
-        if len(ans_list) != len(heap):
-            print_length_error(self.test_name, len(ans_list), len(heap))
-        for ans, out in zip(ans_list, heap.data):
-            if ans != out:
-                print_result_error(self.test_name, ans_list, heap.data)
-        print_pass(self.test_name)
-
-    def check_dict(self, ans_dict, out_dict):
+    def check_dict(self, ans_dict, *args):
+        out_dict = self.calculate(*args)
         for k, v in ans_dict.items():
             try:
                 if out_dict[k] == v:
                     out_dict.pop(k)
             except KeyError:
                 print('[KeyError]{self.func_name}')
-        print_pass(self.test_name) if out_dict == {} else print_result_error(self.test_name, {}, out_dict)
+            print_pass(self.test_name) if out_dict == {} else print_result_error(self.test_name, {}, out_dict)
 
-    def check_bst(self, ans_dict, *args):
-        out_dict = self.calculate(*args)
-        self.check_dict(ans_dict, out_dict)
-
-    def check_hash(self, ans_dict, *args):
-        out_dict = self.calculate(*args)
-        hash, _ = args
-        self.check_dict(ans_dict, out_dict)
-
-    def check_sort_list(self, ans_list, *args):
+    def check_sort_list(self, ans_list, *args, show_pass=True):
         out_list = self.calculate(*args)
-        self.check_list(ans_list, out_list)
+        #print('test')
+        #if out_list is None: out_list, _, _ = args
+        self.check_list(ans_list, out_list, show_pass=show_pass)
 
 
 def print_pass(func_name):
@@ -99,7 +79,7 @@ def execute_val_test(func, ans, *args):
 
 def execute_stack_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_stack(ans, *args)
+    tc.check_instance_data(ans, *args)
 
 def execute_queue_test(func, ans, *args):
     tc = TestCase(func)
@@ -108,17 +88,17 @@ def execute_queue_test(func, ans, *args):
 # execute test for ch3
 def execute_heap_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_heap(ans, *args)
+    tc.check_instance_data(ans, *args)
 
 def execute_bst_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_bst(ans, *args)
+    tc.check_dict(ans, *args)
 
 def execute_hash_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_hash(ans, *args)
+    tc.check_dict(ans, *args)
 
 # execute test for ch4
-def execute_sort_test(func, ans, *args):
+def execute_sort_test(func, ans, *args, show_pass=False):
     tc = TestCase(func)
-    tc.check_sort_list(ans, *args)
+    tc.check_instance_data(ans, *args, show_pass=show_pass) if len(args) == 2 else tc.check_sort_list(ans, *args, show_pass=show_pass)

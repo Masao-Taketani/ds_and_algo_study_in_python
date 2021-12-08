@@ -16,7 +16,8 @@ def bubble_sort(li):
 
 
 def quick_sort(li, i, j):
-    if i >= j or len(li) < 1:
+    print(li)
+    if i >= j or len(li) < 2:
         return
 
     def find_pivot(li, i, j):
@@ -31,9 +32,9 @@ def quick_sort(li, i, j):
 
     def partition(li, l, r, pivot):
         while(True):
-            while(li[l] < pivot):
+            while(l <= r and li[l] < pivot):
                 l += 1
-            while(li[r] >= pivot):
+            while(l <= r and li[r] >= pivot):
                 r -= 1
             if l > r:
                 return l
@@ -45,7 +46,6 @@ def quick_sort(li, i, j):
     k = partition(li, i, j, pivot)
     quick_sort(li, i, k-1)
     quick_sort(li, k, j)
-
     return li
 
 
@@ -80,24 +80,31 @@ class HeapSort(Heap):
     def __init__(self, data=[]):
         super(Heap, self).__init__(data)
         if len(self.data) > 1:
-            print('test')
             self.construct_heap()
 
-    def construct_heap(self):
-        length = len(self.data)
+    def insert(self, val):
+        self.data.append(val)
+        if len(self.data) > 1: self.construct_heap()
+
+    def construct_heap(self, last_idx=None):
+        if last_idx is None: last_idx = len(self.data) - 1
+        length = last_idx + 1
         for i in range(length // 2 - 1, -1, -1):
-            print(i)
-            if 2 * i + 2 > length - 1:
-                min_idx = 2 * i + 1
+            r_idx = 2 * i + 2
+            l_idx = 2 * i + 1
+            if r_idx > last_idx:
+                min_idx = l_idx
+            elif self.data[l_idx] >= self.data[r_idx]:
+                min_idx = r_idx
             else:
-                if self.data[2 * i + 1] >= self.data[2 * i + 2]:
-                    min_idx = 2 * i + 2
-                else:
-                    min_idx = 2 * i + 1
+                min_idx = l_idx
             
             if self.data[i] > self.data[min_idx]:
                 swap(self.data, i, min_idx)
 
     def implace_sort(self):
-        pass
-            
+        last_idx = len(self.data) - 1
+        while(last_idx > 0):
+            swap(self.data, 0, last_idx)
+            last_idx -= 1
+            self.construct_heap(last_idx)
