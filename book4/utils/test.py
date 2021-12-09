@@ -56,8 +56,8 @@ class TestCase:
 
     def check_sort_list(self, ans_list, *args, show_pass=True):
         out_list = self.calculate(*args)
-        #print('test')
-        #if out_list is None: out_list, _, _ = args
+        if out_list is None:
+            out_list, _, _ = args
         self.check_list(ans_list, out_list, show_pass=show_pass)
 
 
