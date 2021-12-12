@@ -85,9 +85,30 @@ class Queue(Base):
 
 class Heap(Base):
     """Implement min heap"""
-    def __init__(self, data=[]):
+    def __init__(self, data=[], use_node=False):
         super(Heap, self).__init__(data)
-        self.last_idx = None
+        if len(self.data) > 0:
+            self.construct_heap_node() if use_node else self.construct_heap()
+        else:
+            self.last_idx = None
+
+    def construct_heap(self, right_idx=None):
+        if right_idx is None: 
+            self.last_idx = len(self.data) - 1
+            right_idx = self.last_idx
+        length = right_idx + 1
+        for i in range(length // 2 - 1, -1, -1):
+            r_idx = 2 * i + 2
+            l_idx = 2 * i + 1
+            if r_idx > right_idx:
+                min_idx = l_idx
+            elif self.data[l_idx] >= self.data[r_idx]:
+                min_idx = r_idx
+            else:
+                min_idx = l_idx
+            
+            if self.data[i] > self.data[min_idx]:
+                swap(self.data, i, min_idx)
 
     def insert(self, val):
         self.data.append(val)
@@ -113,6 +134,7 @@ class Heap(Base):
         self.data.pop()
         if len(self.data) == 0:
             self.last_idx = None
+            return minval
         else:
             self.last_idx -= 1
         
@@ -134,6 +156,70 @@ class Heap(Base):
                 break
         return minval
 
+    def construct_heap_node(self, right_idx=None):
+        if right_idx is None:
+            self.last_idx = len(self.data) - 1
+            right_idx = self.last_idx
+        length = right_idx + 1
+        for i in range(length // 2 - 1, -1, -1):
+            r_idx = 2 * i + 2
+            l_idx = 2 * i + 1
+            if r_idx > right_idx:
+                min_idx = l_idx
+            elif self.data[l_idx] >= self.data[r_idx]:
+                min_idx = r_idx
+            else:
+                min_idx = l_idx
+            
+            if self.data[i] > self.data[min_idx]:
+                swap(self.data, i, min_idx)
+
+    def insert_node(self, node):
+        self.data.append(node)
+        if self.last_idx is None:
+            self.last_idx = 0
+        else:
+            self.last_idx += 1
+        
+        i = self.last_idx
+        while(i > 0):
+            p_idx = (i - 1) // 2
+            if self.data[p_idx].val > self.data[i].val:
+                swap(self.data, p_idx, i)
+                i = p_idx
+            else:
+                break
+    
+    def deletemin_node(self):
+        self.check_empty()
+        min_node = self.data[0]
+        last_node = self.data[self.last_idx]
+        self.data[0] = last_node
+        self.data.pop()
+        if len(self.data) == 0:
+            self.last_idx = None
+            return min_node
+        else:
+            self.last_idx -= 1
+        
+        p_idx = 0
+        while(self.last_idx / 2 > p_idx):
+            left_idx = 2 * p_idx + 1
+            right_idx = left_idx + 1 
+            if self.data[p_idx].val > self.data[left_idx].val:
+                if self.data[left_idx].val > self.data[right_idx].val:
+                    swap(self.data, p_idx, right_idx)
+                    p_idx = right_idx
+                else:
+                    swap(self.data, p_idx, left_idx)
+                    p_idx = right_idx
+            elif self.data[p_idx].val > self.data[right_idx].val:
+                swap(self.data, p_idx, right_idx)
+                p_idx = right_idx
+            else:
+                break
+        return min_node
+
 
 class Node:
 
@@ -146,10 +232,16 @@ class Node:
         assert self.val is not None, EMPTY_MESSAGE
 
 
+class NamedNode(Node):
+
+    def __init__(self, name, val):
+        super(NamedNode, self).__init__(val, name=name)
+
+
 class BST(Node):
     """Implement Binary Search Tree"""
     def __init__(self, val=None, left=None, right=None):
-        super(BST, self).__init__(val, left=None, right=None)
+        super(BST, self).__init__(val, left=left, right=right)
 
     def insert(self, val):
         if self.val is None:

@@ -78,28 +78,10 @@ class HeapSort(Heap):
 
     def __init__(self, data=[]):
         super(Heap, self).__init__(data)
-        if len(self.data) > 1:
-            self.construct_heap()
 
     def insert(self, val):
         self.data.append(val)
         if len(self.data) > 1: self.construct_heap()
-
-    def construct_heap(self, last_idx=None):
-        if last_idx is None: last_idx = len(self.data) - 1
-        length = last_idx + 1
-        for i in range(length // 2 - 1, -1, -1):
-            r_idx = 2 * i + 2
-            l_idx = 2 * i + 1
-            if r_idx > last_idx:
-                min_idx = l_idx
-            elif self.data[l_idx] >= self.data[r_idx]:
-                min_idx = r_idx
-            else:
-                min_idx = l_idx
-            
-            if self.data[i] > self.data[min_idx]:
-                swap(self.data, i, min_idx)
 
     def implace_sort(self):
         last_idx = len(self.data) - 1
