@@ -142,13 +142,21 @@ class Heap(Base):
         while(self.last_idx / 2 > p_idx):
             left_idx = 2 * p_idx + 1
             right_idx = left_idx + 1 
+
+            if right_idx > self.last_idx:
+                if self.data[p_idx] > self.data[left_idx]:
+                    swap(self.data, p_idx, left_idx)
+                    p_idx = left_idx
+                else:
+                    break  
+
             if self.data[p_idx] > self.data[left_idx]:
                 if self.data[left_idx] > self.data[right_idx]:
                     swap(self.data, p_idx, right_idx)
                     p_idx = right_idx
                 else:
                     swap(self.data, p_idx, left_idx)
-                    p_idx = right_idx
+                    p_idx = left_idx
             elif self.data[p_idx] > self.data[right_idx]:
                 swap(self.data, p_idx, right_idx)
                 p_idx = right_idx
@@ -205,19 +213,28 @@ class Heap(Base):
         p_idx = 0
         while(self.last_idx / 2 > p_idx):
             left_idx = 2 * p_idx + 1
-            right_idx = left_idx + 1 
+            right_idx = left_idx + 1
+
+            if right_idx > self.last_idx:
+                if self.data[p_idx].val > self.data[left_idx].val:
+                    swap(self.data, p_idx, left_idx)
+                    p_idx = left_idx
+                else:
+                    break
+
             if self.data[p_idx].val > self.data[left_idx].val:
                 if self.data[left_idx].val > self.data[right_idx].val:
                     swap(self.data, p_idx, right_idx)
                     p_idx = right_idx
                 else:
                     swap(self.data, p_idx, left_idx)
-                    p_idx = right_idx
+                    p_idx = left_idx
             elif self.data[p_idx].val > self.data[right_idx].val:
                 swap(self.data, p_idx, right_idx)
                 p_idx = right_idx
             else:
                 break
+
         return min_node
 
 

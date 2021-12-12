@@ -44,15 +44,20 @@ class TestCase:
                 modified_queue.append(elem)
         self.check_list(ans_list, modified_queue)
 
-    def check_dict(self, ans_dict, *args):
+    def check_ds_dict(self, ans_dict, *args):
         out_dict = self.calculate(*args)
+        self.check_dict(ans_dict, out_dict)
+
+    def check_dict(self, ans_dict, out_dict, show_pass=True):
         for k, v in ans_dict.items():
             try:
                 if out_dict[k] == v:
                     out_dict.pop(k)
             except KeyError:
                 print('[KeyError]{self.func_name}')
+        if show_pass:
             print_pass(self.test_name) if out_dict == {} else print_result_error(self.test_name, {}, out_dict)
+
 
     def check_sort_list(self, ans_list, *args, show_pass=True):
         out_list = self.calculate(*args)
@@ -92,13 +97,21 @@ def execute_heap_test(func, ans, *args):
 
 def execute_bst_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_dict(ans, *args)
+    tc.check_ds_dict(ans, *args)
 
 def execute_hash_test(func, ans, *args):
     tc = TestCase(func)
-    tc.check_dict(ans, *args)
+    tc.check_ds_dict(ans, *args)
 
 # execute test for ch4
 def execute_sort_test(func, ans, *args, show_pass=False):
     tc = TestCase(func)
     tc.check_instance_data(ans, *args, show_pass=show_pass) if len(args) == 2 else tc.check_sort_list(ans, *args, show_pass=show_pass)
+
+def execute_dijkstra_test(func, ans_dict, ans_list, instance):
+    tc = TestCase(func)
+    _ = tc.calculate()
+    for key in instance.current_status.keys():
+        continue
+    tc.check_dict(ans_dict, instance.current_status, show_pass=False)
+    tc.check_list(ans_list, instance.shortest_path_dict[key], show_pass=True)
