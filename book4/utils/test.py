@@ -2,9 +2,9 @@ import sys
 
 
 class TestCase:
-    def __init__(self, func):
+    def __init__(self, func, specified_name=None):
         self.func = func
-        self.test_name = self.get_test_name(func)
+        self.test_name = self.get_test_name(func) if specified_name is None else specified_name
 
     def get_test_name(self, func):
         func_name = func.__name__
@@ -77,7 +77,7 @@ def print_result_error(func_name, expected, got):
     print(f'[ERROR]{func_name} result expected: {expected}, got: {got}', file=sys.stderr)
     sys.exit(1)
 
-# execute test for ch2
+# for ch2
 def execute_val_test(func, ans, *args):
     tc = TestCase(func)
     tc.check_val(ans, *args)
@@ -90,7 +90,7 @@ def execute_queue_test(func, ans, *args):
     tc = TestCase(func)
     tc.check_queue(ans, *args)
 
-# execute test for ch3
+# for ch3
 def execute_heap_test(func, ans, *args):
     tc = TestCase(func)
     tc.check_instance_data(ans, *args)
@@ -103,15 +103,21 @@ def execute_hash_test(func, ans, *args):
     tc = TestCase(func)
     tc.check_ds_dict(ans, *args)
 
-# execute test for ch4
+# for ch4
 def execute_sort_test(func, ans, *args, show_pass=False):
     tc = TestCase(func)
     tc.check_instance_data(ans, *args, show_pass=show_pass) if len(args) == 2 else tc.check_sort_list(ans, *args, show_pass=show_pass)
 
+# for ch5
 def execute_dijkstra_test(func, ans_dict, ans_list, instance):
-    tc = TestCase(func)
+    tc = TestCase(func, 'Dijkstra')
     _ = tc.calculate()
     for key in instance.current_status.keys():
         continue
     tc.check_dict(ans_dict, instance.current_status, show_pass=False)
     tc.check_list(ans_list, instance.shortest_path_dict[key], show_pass=True)
+
+def execute_bfs_dfs_test(func, ans_list, *args, specified_name):
+    tc = TestCase(func, specified_name)
+    out_list = tc.calculate(*args)
+    tc.check_list(ans_list, out_list)
