@@ -1,4 +1,5 @@
 from utils.ds import NamedNode, Heap, Queue, Stack
+from utils.utils import swap
 import copy
 
 
@@ -66,3 +67,49 @@ class Dijkstra:
                         self.current_status[name] = comp_val
                         self.shortest_path_dict[name] = copy.deepcopy(self.shortest_path_dict[min_node.name])
                         self.shortest_path_dict[name].append(name)
+
+
+class Prim:
+    def __init__(self, V, E):
+        self.V = V
+        self.E = E
+        self.seen = set()
+    
+    def find_min_spanning_tree(self, root_name):
+        spanning_tree = []
+        total_cost = 0
+        v_len = len(self.V)
+        self.seen.add(root_name)
+        while(len(self.seen) != v_len):
+            min_idx = None
+            min_cost = float('inf')
+            min_edge = None
+            i = 0
+            for e in self.E:
+                renew_count = 0
+                for node_name in e[0]:
+                    if node_name in self.seen:
+                        renew_count += 1
+                if renew_count == 1 and min_cost > e[1]:
+                    min_cost = e[1]
+                    min_idx = i
+                    min_edge = e[0]
+                elif renew_count == 2:
+                    self._swap_and_delete_ith_elem(self.E, i)
+                    continue
+                i += 1
+            if min_cost == float('inf'):
+                continue
+            else:
+                spanning_tree.append(min_edge)
+                total_cost += min_cost
+                self._swap_and_delete_ith_elem(self.E, min_idx)
+                for node_name in min_edge:
+                    if node_name not in self.seen:
+                        self.seen.add(node_name)
+        return spanning_tree, total_cost
+
+    def _swap_and_delete_ith_elem(self, li, i):
+        last_idx = len(li) - 1
+        swap(li, last_idx, i)
+        li.pop()
