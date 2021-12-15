@@ -1,4 +1,5 @@
-from utils.ds import NamedNode, Heap, Queue, Stack
+from typing import SupportsBytes
+from utils.ds import NamedNode, EdgeNode, Heap, Queue, Stack
 from utils.utils import swap
 import copy
 
@@ -70,6 +71,7 @@ class Dijkstra:
 
 
 class Prim:
+
     def __init__(self, V, E):
         self.V = V
         self.E = E
@@ -113,3 +115,61 @@ class Prim:
         last_idx = len(li) - 1
         swap(li, last_idx, i)
         li.pop()
+
+
+class Kruscal:
+
+    def __init__(self, V, E):
+        self.V = V
+        self.E = E
+        self.sub_trees = []
+        for v in self.V:
+            self.sub_trees.append(set(v))
+        self._construct_heap()
+    
+    def find_min_spanning_tree(self):
+        spanning_tree = []
+        total_cost = 0
+        while(len(self.heap.data)>0):
+            min_node = self.heap.deletemin_node()
+            renew = self._set_sub_trees(min_node.edge)
+            if renew:
+                spanning_tree.append(min_node.edge)
+                total_cost += min_node.val
+        return spanning_tree, total_cost
+
+    def _construct_heap(self):
+        new_E = []
+        for e in self.E:
+            new_E.append(EdgeNode(*e))
+        self.heap = Heap(new_E, use_node=True)
+
+    def _set_sub_trees(self, edge):
+        renew = False
+        for e in edge:
+            for s in self.sub_trees:
+                if e in s:
+                    if self._is_subset(edge, s):
+                        return
+        renew = True
+        connected_set = set()
+        deletes = []
+        for s in self.sub_trees:
+            for e in edge:
+                if e in s:
+                    connected_set.update(s)
+                    deletes.append(s)
+        for d in deletes:
+            self.sub_trees.remove(d)
+        self.sub_trees.append(connected_set)
+        return renew
+                        
+    def _is_subset(self, edge, s):
+        count = 0
+        for e in edge:
+            if e in s:
+                count += 1
+        if count == 2:
+            return True
+        else:
+            return False

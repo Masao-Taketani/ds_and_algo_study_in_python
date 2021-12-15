@@ -132,8 +132,17 @@ def execute_bfs_dfs_test(func, ans_list, *args, specified_name):
 
 # for ch6
 def execute_prim_test(func, ans_list, *args):
-    tc = TestCase(func)
-    out_sets_list, out_total_cost = tc.calculate(*args)
+    tc = TestCase(func, "Prim's Algorithm")
+    out_tuple = tc.calculate(*args)
+    check_prim_or_kruscal(tc, ans_list, out_tuple)
+
+def execute_kruscal_test(func, ans_list):
+    tc = TestCase(func, "Kruscal's Algorithm")
+    out_tuple = tc.calculate()
+    check_prim_or_kruscal(tc, ans_list, out_tuple)
+
+def check_prim_or_kruscal(tc, ans_list, out_tuple):
+    out_sets_list, out_total_cost = out_tuple
     ans_sets_list, min_total_cost = ans_list
     tc.check_sets_list(ans_sets_list, out_sets_list, show_pass=False)
     tc.check_val(min_total_cost, out_total_cost)

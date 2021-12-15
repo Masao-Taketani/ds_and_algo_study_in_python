@@ -93,22 +93,26 @@ class Heap(Base):
             self.last_idx = None
 
     def construct_heap(self, right_idx=None):
-        if right_idx is None: 
-            self.last_idx = len(self.data) - 1
-            right_idx = self.last_idx
-        length = right_idx + 1
-        for i in range(length // 2 - 1, -1, -1):
-            r_idx = 2 * i + 2
-            l_idx = 2 * i + 1
-            if r_idx > right_idx:
-                min_idx = l_idx
-            elif self.data[l_idx] >= self.data[r_idx]:
-                min_idx = r_idx
-            else:
-                min_idx = l_idx
-            
-            if self.data[i] > self.data[min_idx]:
-                swap(self.data, i, min_idx)
+        swaped = True
+        while(swaped):
+            swaped = False
+            if right_idx is None: 
+                self.last_idx = len(self.data) - 1
+                right_idx = self.last_idx
+            length = right_idx + 1
+            for i in range(length // 2 - 1, -1, -1):
+                r_idx = 2 * i + 2
+                l_idx = 2 * i + 1
+                if r_idx > right_idx:
+                    min_idx = l_idx
+                elif self.data[l_idx] >= self.data[r_idx]:
+                    min_idx = r_idx
+                else:
+                    min_idx = l_idx
+                
+                if self.data[i] > self.data[min_idx]:
+                    swap(self.data, i, min_idx)
+                    swaped = True
 
     def insert(self, val):
         self.data.append(val)
@@ -165,22 +169,26 @@ class Heap(Base):
         return minval
 
     def construct_heap_node(self, right_idx=None):
-        if right_idx is None:
-            self.last_idx = len(self.data) - 1
-            right_idx = self.last_idx
-        length = right_idx + 1
-        for i in range(length // 2 - 1, -1, -1):
-            r_idx = 2 * i + 2
-            l_idx = 2 * i + 1
-            if r_idx > right_idx:
-                min_idx = l_idx
-            elif self.data[l_idx] >= self.data[r_idx]:
-                min_idx = r_idx
-            else:
-                min_idx = l_idx
-            
-            if self.data[i] > self.data[min_idx]:
-                swap(self.data, i, min_idx)
+        swaped = True
+        while(swaped):
+            swaped = False
+            if right_idx is None:
+                self.last_idx = len(self.data) - 1
+                right_idx = self.last_idx
+            length = right_idx + 1
+            for i in range(length // 2 - 1, -1, -1):
+                r_idx = 2 * i + 2
+                l_idx = 2 * i + 1
+                if r_idx > right_idx:
+                    min_idx = l_idx
+                elif self.data[l_idx].val >= self.data[r_idx].val:
+                    min_idx = r_idx
+                else:
+                    min_idx = l_idx
+                
+                if self.data[i].val > self.data[min_idx].val:
+                    swap(self.data, i, min_idx)
+                    swaped = True
 
     def insert_node(self, node):
         self.data.append(node)
@@ -253,6 +261,11 @@ class NamedNode(Node):
 
     def __init__(self, name, val):
         super(NamedNode, self).__init__(val, name=name)
+
+class EdgeNode(Node):
+
+    def __init__(self, edge, val):
+        super(EdgeNode, self).__init__(val, edge=edge)
 
 
 class BST(Node):
