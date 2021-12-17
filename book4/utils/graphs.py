@@ -97,7 +97,6 @@ class Prim:
                     min_idx = i
                     min_edge = e[0]
                 elif renew_count == 2:
-                    self._swap_and_delete_ith_elem(self.E, i)
                     continue
                 i += 1
             if min_cost == float('inf'):

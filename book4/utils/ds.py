@@ -153,8 +153,7 @@ class Heap(Base):
                     p_idx = left_idx
                 else:
                     break  
-
-            if self.data[p_idx] > self.data[left_idx]:
+            elif self.data[p_idx] > self.data[left_idx]:
                 if self.data[left_idx] > self.data[right_idx]:
                     swap(self.data, p_idx, right_idx)
                     p_idx = right_idx
@@ -229,8 +228,7 @@ class Heap(Base):
                     p_idx = left_idx
                 else:
                     break
-
-            if self.data[p_idx].val > self.data[left_idx].val:
+            elif self.data[p_idx].val > self.data[left_idx].val:
                 if self.data[left_idx].val > self.data[right_idx].val:
                     swap(self.data, p_idx, right_idx)
                     p_idx = right_idx
