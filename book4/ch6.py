@@ -37,3 +37,5 @@ if __name__ == '__main__':
      V2, E2 = copy_V_and_E(V, E)
      kruscal = Kruscal(V2, E2)
      execute_kruscal_test(kruscal.find_min_spanning_tree, ans_list)
+
+     print_passing_all()
