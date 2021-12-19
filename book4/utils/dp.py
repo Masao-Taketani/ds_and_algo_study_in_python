@@ -29,10 +29,14 @@ class LCS:
     def find_lcs(self, s_list, i, j):
         s2 = None
         if self.lcs_table[i-1][j-1] == self.lcs_table[i-1][j] and self.lcs_table[i-1][j-1] == self.lcs_table[i][j-1]:
-            s_list.append(self.s2[j-1])
             if self.lcs_table[i-1][j-1] == 0:
+                s_list.append(self.s2[j-1])
                 return [s_list]
-            s1 = self.find_lcs(s_list, i-1, j-1)
+            if self.lcs_table[i][j] == self.lcs_table[i-1][j-1]:
+                s1 = self.find_lcs(s_list, i-1, j-1)
+            else:
+                s_list.append(self.s2[j-1])
+                s1 = self.find_lcs(s_list, i-1, j-1)
         else:
             if self.lcs_table[i-1][j] > self.lcs_table[i][j-1]:
                 s1 = self.find_lcs(s_list, i-1, j)
