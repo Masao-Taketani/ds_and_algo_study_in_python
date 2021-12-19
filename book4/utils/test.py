@@ -26,9 +26,10 @@ class TestCase:
     def calculate(self, *args):
         return self.func(*args)
 
-    def check_val(self, ans, val):
+    def check_val(self, ans, val, show_pass=True):
         if val == ans:
-            print_pass(self.test_name)
+            if show_pass:
+                print_pass(self.test_name)
         else:
             print_result_error(self.test_name, ans, val)
 
@@ -83,6 +84,13 @@ class TestCase:
         if out_list is None:
             out_list, _, _ = args
         self.check_list(ans_list, out_list, show_pass=show_pass)
+
+    def convert_2d_list_to_dic(self, l_2d):
+        dic = {}
+        for i in l_2d:
+            dic[''.join(i)] = 1
+        return dic
+
 
 # for ch2
 def execute_val_test(func, ans, *args):
@@ -146,3 +154,13 @@ def check_prim_or_kruscal(tc, ans_list, out_tuple):
     ans_sets_list, min_total_cost = ans_list
     tc.check_sets_list(ans_sets_list, out_sets_list, show_pass=False)
     tc.check_val(min_total_cost, out_total_cost)
+
+# for ch8
+def execute_lcs_test(func, ans_list):
+    tc = TestCase(func, "LCS")
+    out_length, out_lcs = tc.calculate()
+    lcs_length, lcs = ans_list
+    tc.check_val(lcs_length, out_length, show_pass=False)
+    ans_dict = tc.convert_2d_list_to_dic(lcs)
+    out_dict = tc.convert_2d_list_to_dic(out_lcs)
+    tc.check_dict(ans_dict, out_dict)
