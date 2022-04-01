@@ -10,6 +10,12 @@ if __name__ == '__main__':
     ans = 11
     execute_val_test(KMP, ans, text, search_text, skip_table)
 
+    text = 'abccabcabdd'
+    search_text = 'abcabd'
+    skip_table = [1, 1, 2, 4, 4, 3]
+    ans = 4
+    execute_val_test(KMP, ans, text, search_text, skip_table)
+
     text = 'くくまくまふくまひくまひくまふくまひ'
     search_text = 'ひくまふくま'
     len_st = len(search_text)

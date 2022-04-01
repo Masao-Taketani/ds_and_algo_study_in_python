@@ -7,7 +7,8 @@ def KMP(text, search_text, skip_table):
         if j == m:
             return i
         i = i + skip_table[j]
-        j = 0
+        j = j - skip_table[j]
+        if j == -1: j += 1
     return None
 
 
